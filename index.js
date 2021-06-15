@@ -1,4 +1,5 @@
 const app = require("./app");
 const APP_PORT = process.env.APP_PORT;
+const logger = require("./config/logger/winston");
 
-app.listen(APP_PORT, () => console.log(`Server listening on port ${APP_PORT}`));
+app.listen(APP_PORT, () => logger.info(`Server listening on port ${APP_PORT}`));
