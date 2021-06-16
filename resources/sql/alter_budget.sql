@@ -1,0 +1,1 @@
+alter table budget rename to budget_items;
