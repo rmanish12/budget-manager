@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db/sequelize");
+const logger = require("../config/logger/winston");
 
 const { INTEGER, STRING, DATE, ENUM, BOOLEAN } = DataTypes;
 
@@ -59,5 +60,9 @@ const User = sequelize.define("User", {
     updatedAt: "updated_at",
     createdAt: "created_at"
 });
+
+User.sync()
+    .then(() => logger.info("User model registered"))
+    .catch(err => logger.error(`Error while registering User model: ${err}`));
 
 module.exports = User

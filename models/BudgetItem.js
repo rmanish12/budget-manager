@@ -3,6 +3,7 @@ const sequelize = require("../config/db/sequelize");
 const User = require("./User");
 const BudgetType = require(".//BudgetType");
 const Category = require("./Category");
+const logger = require("../config/logger/winston");
 
 const { INTEGER, DOUBLE, STRING, DATE } = DataTypes;
 
@@ -57,5 +58,9 @@ const BudgetItem = sequelize.define("BudgetItem", {
     createdAt: "created_at",
     updatedAt: "updated_at"
 });
+
+BudgetItem.sync()
+    .then(() => logger.info("BudgetItem model registered"))
+    .catch(err => logger.error(`Error while registering BudgetItem model: ${err}`));
 
 module.exports = BudgetItem;

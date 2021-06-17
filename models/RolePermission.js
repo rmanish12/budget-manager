@@ -2,6 +2,7 @@ const { Sequelize, DataTypes, Deferrable } = require("sequelize");
 const sequelize = require("../config/db/sequelize");
 const Role = require("./Role");
 const Permission = require("./Permission");
+const logger = require("../config/logger/winston");
 
 const { INTEGER, STRING } = DataTypes;
 
@@ -33,5 +34,9 @@ const RolePermission = sequelize.define("RolePermission", {
     tableName: "roles_permissions",
     timestamps: false
 });
+
+RolePermission.sync()
+    .then(() => logger.info("RolePermission model registered"))
+    .catch(err => logger.error(`Error while registering RolePermission model: ${err}`));
 
 module.exports = RolePermission;

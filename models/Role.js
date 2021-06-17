@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db/sequelize");
+const logger = require("../config/logger/winston");
 
 const { INTEGER, STRING } = DataTypes;
 
@@ -28,5 +29,9 @@ const Role = sequelize.define("Role", {
     createdAt: "created_at",
     updatedAt: "updated_at"
 });
+
+Role.sync()
+    .then(() => logger.info("Role model registered"))
+    .catch(err => logger.error(`Error while registering Role model: ${err}`));
 
 module.exports = Role;

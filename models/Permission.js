@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db/sequelize");
+const logger = require("../config/logger/winston");
 
 const { INTEGER, STRING } = DataTypes;
 
@@ -27,5 +28,9 @@ const Permission = sequelize.define("Permission", {
     updatedAt: "updated_at",
     createdAt: "created_at"
 });
+
+Permission.sync()
+    .then(() => logger.info("Permission model registered"))
+    .catch(err => logger.error(`Error while registering Permission model: ${err}`));
 
 module.exports = Permission;
