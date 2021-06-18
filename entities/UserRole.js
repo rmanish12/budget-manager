@@ -4,6 +4,9 @@ const Role = require("./Role");
 const User = require("./User");
 const logger = require("../config/logger/winston");
 
+const User = require("./User");
+const Role = require("./Role");
+
 const { INTEGER } = DataTypes;
 
 const UserRole = sequelize.define("UserRole", {
@@ -34,6 +37,9 @@ const UserRole = sequelize.define("UserRole", {
     tableName: "users_roles",
     timestamps: false
 });
+
+User.belongsToMany(Role, { through: RolePermission, unique:false, foreignKey: "user_id"});
+Role.belongsToMany(User, { through: RolePermission, unique:false, foreignKey: "role_id"});
 
 UserRole.sync()
     .then(() => logger.info("UserRole model registered"))

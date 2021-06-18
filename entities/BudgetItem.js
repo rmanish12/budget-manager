@@ -1,9 +1,10 @@
 const { Sequelize, DataTypes, Deferrable } = require("sequelize");
 const sequelize = require("../config/db/sequelize");
-const User = require("./User");
-const BudgetType = require(".//BudgetType");
-const Category = require("./Category");
 const logger = require("../config/logger/winston");
+
+const User = require("./User");
+const Category = require("./Category");
+const BudgetType = require("./BudgetType");
 
 const { INTEGER, DOUBLE, STRING, DATE } = DataTypes;
 
@@ -13,7 +14,7 @@ const BudgetItem = sequelize.define("BudgetItem", {
         primaryKey: true,
         autoIncrement: true
     },
-    user_id: {
+    user: {
         type: INTEGER,
         allowNull: false,
         references: {
@@ -22,8 +23,9 @@ const BudgetItem = sequelize.define("BudgetItem", {
             deferrable: Deferrable.INITIALLY_IMMEDIATE
         }
     },
-    type_id: {
+    budgetType: {
         type: INTEGER,
+        field: "budget_type",
         allowNull: false,
         references: {
             model: BudgetType,
@@ -43,7 +45,7 @@ const BudgetItem = sequelize.define("BudgetItem", {
         allowNull: false,
         field: "date_of_transaction"
     },
-    category_id: {
+    category: {
         type: INTEGER,
         allowNull: false,
         references: {
@@ -58,6 +60,39 @@ const BudgetItem = sequelize.define("BudgetItem", {
     createdAt: "created_at",
     updatedAt: "updated_at"
 });
+
+User.hasMany(BudgetItem, {
+    foreignKey: {
+        name: "user",
+        allowNull: false
+    },
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+});
+
+BudgetItem.belongsTo(User, { foreignKey: "user", as: "owner" });
+
+Category.hasMany(BudgetItem, {
+    foreignKey: {
+        name: "category",
+        allowNull: false
+    },
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+});
+
+BudgetItem.belongsTo(Category, { foreignKey: "category", as: "categoryOfBudget" });
+
+BudgetType.hasMany(BudgetItem, {
+    foreignKey: {
+        name: "budget_type",
+        allowNull: false
+    },
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+});
+
+BudgetItem.belongsTo(BudgetType, { foreignKey: "budget_type", as: "typeOfBudget" });
 
 BudgetItem.sync()
     .then(() => logger.info("BudgetItem model registered"))

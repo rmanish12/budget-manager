@@ -18,9 +18,10 @@ const Category = sequelize.define("Category", {
     description: {
         type: STRING(100)
     },
-    type_id: {
+    budgetType: {
         type: INTEGER,
         allowNull: false,
+        fieldName: "budget_type",
         references: { // creating foreign key
             model: BudgetType, // name of the model referenced
             key: "id", //column name of the referenced model
