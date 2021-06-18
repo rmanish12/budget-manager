@@ -1,10 +1,9 @@
 const express = require("express");
 const UserController = require("../controllers/UserController");
-const logger = require("../config/logger/winston");
 
 const router = express.Router();
 const userController = new UserController();
-logger.debug("userController: ", userController);
+
 router.post("/register", userController.createUser);
 
 router.post("/login", function(req, res) {

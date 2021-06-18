@@ -15,7 +15,7 @@ module.exports = function exceptionHandler (err, req, res, next) {
         );
     } else {
         res.status(ResponseStatus.INTERNAL_SERVER_ERROR).send(
-            new Response(ResponseStatus.INTERNAL_SERVER_ERROR, err.message)
+            new Response(ResponseStatus.INTERNAL_SERVER_ERROR, "Internal Error Occurred")
         )
     }
 };
