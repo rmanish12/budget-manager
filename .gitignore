@@ -1,3 +1,5 @@
 node_modules
 start.sh
-test.js
+start.test.sh
+demo.js
+test

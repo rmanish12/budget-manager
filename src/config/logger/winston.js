@@ -1,5 +1,6 @@
 const { createLogger, format, transports } = require("winston");
 const env = process.env.NODE_ENV;
+const logging = (process.env.logging === "true");
 
 const { combine, timestamp, label, printf, colorize } = format;
 
@@ -25,7 +26,7 @@ const logger = createLogger({
         new transports.Console(options)
     ],
     exitOnError: false,
-    silent: false // if true, will suppress all logs
+    silent: !logging // if true, will suppress all logs
 });
 
 module.exports = logger;

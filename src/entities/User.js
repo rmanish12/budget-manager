@@ -65,4 +65,24 @@ User.sync()
     .then(() => logger.info("User model registered"))
     .catch(err => logger.error(`Error while registering User model: ${err}`));
 
+User.create({
+    email: "Dejah7.Boyer@hotmail.com",
+    password: "O4DPJ59DTlP3ZrE",
+    firstName: "Bradley",
+    lastName: "Shannon",
+    gender: "Male",
+    dateOfBirth: "12-31-1992"
+}).then(res => console.log(res.dateOfBirth));
+
+// (async function() {
+//     await User.create({
+//         email: "Dejah.Boyer@hotmail.com",
+//         password: "O4DPJ59DTlP3ZrE",
+//         firstName: "Bradley",
+//         lastName: "Shannon",
+//         gender: "Male",
+//         dateOfBirth: "12-31-1992"
+//     })
+//     console.log(user);
+// });
 module.exports = User
